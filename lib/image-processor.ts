@@ -8,21 +8,26 @@ import {
 } from "./types";
 
 /**
- * Calculate final dimensions for the image based on target width
+ * Calculate final dimensions for the image based on target width in inches
+ * Uses 300 DPI as the optimal print resolution
  */
 export function calculateDimensions(
     originalWidth: number,
     originalHeight: number,
     targetWidthInches: number
 ) {
+    // Use 300 DPI for optimal print quality
+    const OPTIMAL_DPI = 300;
     const aspectRatio = originalHeight / originalWidth;
-    const finalWidthPx = Math.round(originalWidth);
-    const finalHeightPx = Math.round(originalWidth * aspectRatio);
+
+    // Calculate final dimensions based on target width in inches
+    const finalWidthPx = Math.round(targetWidthInches * OPTIMAL_DPI);
+    const finalHeightPx = Math.round(finalWidthPx * aspectRatio);
 
     return {
         width: finalWidthPx,
         height: finalHeightPx,
-        dpi: Math.round(originalWidth / targetWidthInches),
+        dpi: OPTIMAL_DPI,
     };
 }
 
