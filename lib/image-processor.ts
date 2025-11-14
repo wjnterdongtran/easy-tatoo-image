@@ -58,11 +58,15 @@ export async function splitImageIntoSheets(
 
     // STEP 2: Calculate target dimensions based on desired print width
     // We want the FINAL assembled image to be targetWidthInches wide
-    const dpi = Math.round(originalWidth / targetWidthInches);
-    const pixelsPerMm = dpi / 25.4;
-    const pixelsPerInch = dpi;
+    // Always use OPTIMAL_DPI (300) for print output to ensure correct physical size
+    const OPTIMAL_DPI = 300;
+    const targetDPI = OPTIMAL_DPI;
 
-    // Calculate final image dimensions at target width
+    const pixelsPerMm = targetDPI / 25.4;
+    const pixelsPerInch = targetDPI;
+
+    // Calculate final image dimensions at target width and DPI
+    // This will resize the image to achieve the target print size
     const finalWidth = Math.round(targetWidthInches * pixelsPerInch);
     const aspectRatio = originalHeight / originalWidth;
     const finalHeight = Math.round(finalWidth * aspectRatio);

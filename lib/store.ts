@@ -62,6 +62,7 @@ export const useCanvasStore = create<CanvasStore>((set, get) => ({
         const updatedSettings = { ...state.settings, ...newSettings };
 
         // Recalculate DPI if target width changes
+        // This shows the source image quality, which helps warn about upscaling
         if (newSettings.targetWidthInches !== undefined) {
             const dpi = state.originalWidth / newSettings.targetWidthInches;
             updatedSettings.dpi = Math.round(dpi);
@@ -79,6 +80,7 @@ export const useCanvasStore = create<CanvasStore>((set, get) => ({
     calculateDPI: () => {
         const { originalWidth, settings } = get();
         if (!originalWidth || !settings.targetWidthInches) return 0;
+        // Calculate source image DPI to show quality and warn about upscaling
         return Math.round(originalWidth / settings.targetWidthInches);
     },
 }));
